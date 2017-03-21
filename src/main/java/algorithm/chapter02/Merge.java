@@ -15,7 +15,7 @@ public class Merge {
     public static void main(String[] args) {
         System.out.println(Arrays.toString(arr));
         System.out.println();
-        FromTop.sort(arr);
+        FromBottom.sort(arr);
 
     }
 
@@ -23,6 +23,7 @@ public class Merge {
         /**
          * 原地归并排序
          * 无法正确完全排序
+         * 若是数组两部分分别是有序的，则可以完成排序,例如[5,4,3,2,1,0]可以排序为[0,1,2,3,4,5]
          */
         public static void merge(int[] arr, int lo, int mid, int hi) {
             System.out.println(
@@ -67,6 +68,23 @@ public class Merge {
 
         public static void sort(int[] arr) {
             sort(arr, 0, arr.length - 1);
+        }
+    }
+
+    /**
+     * 自底向上的归并排序
+     * @author Charlie
+     * @description
+     */
+    private static class FromBottom {
+        public static void sort(int[] arr) {
+            int N = arr.length;
+            for (int sz = 1; sz < N; sz = sz + sz) {
+                for (int lo = 0; lo < N - sz; lo += sz + sz) {
+                    Original.merge(arr, lo, lo + sz - 1,
+                            Math.min(lo + sz + sz - 1, N - 1));
+                }
+            }
         }
     }
 }

@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 /**
  * 归并排序
+ * 所谓归并是指将若干个已排好序的部分合并成一个有序的部分
  * @author Charlie
  * @description
  */

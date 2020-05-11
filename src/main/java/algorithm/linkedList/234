@@ -1,0 +1,59 @@
+单向链表判断是否回文串
+思路：
+1.使用一快一慢指针，快指针每次向前移动两步，慢指针一次向前移动一次。这样等快指针移动到头，慢指针正好移动到中点（当然需要区分奇偶）
+2.慢指针在移动同时，将前半段链表进行反转。
+    实际就是
+        1.将慢指针的next从链表中移除
+        2.将慢指针的next添加到链表头部
+3.快指针到达终点后，慢指针继续向前移动，同时从头部开始新创建一个指针。这两个指针进行比对，完全一致说明是回文串
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public boolean isPalindrome(ListNode head) {
+        if(head == null || head.next == null){
+            return true;
+        }
+        if(head.next.next == null){
+            return head.val == head.next.val;
+        }
+        ListNode fast = head;
+        ListNode slow = head;
+        while(fast.next != null && fast.next.next != null){
+            //未到达终点
+            fast = fast.next.next;
+            ListNode oldHead = head;
+            //慢指针
+            head = slow.next;
+            slow.next = slow.next.next;
+            head.next = oldHead;
+
+            // ListNode n = head;
+            // while(true){
+            //     if(n != null){
+            //         System.out.print(n.val + ",");
+            //         n = n.next;
+            //     }else{
+            //         break;
+            //     }
+            // }
+            // System.out.println();
+        }
+        ListNode compare1 = slow.next;
+        ListNode compare2 = fast.next == null ? head.next : head;
+        while(compare1 != null){
+            if(compare1.val != compare2.val){
+                return false;
+            }
+            compare1 = compare1.next;
+            compare2 = compare2.next;
+        }
+        return true;
+    }
+}
